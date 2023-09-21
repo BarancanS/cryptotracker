@@ -32,25 +32,27 @@ const Table = () => {
         placeholder="Search For a Crypto Currency"
         className="bg-transparent w-10/12 h-10"
       />
-      <table className="w-full">
+      <table className="w-10/12 bg-[#16171A]">
         <thead>
-          <tr className="bg-[#FFD700]">
-            <th>Coin</th>
-            <th>Price</th>
-            <th>24h Change</th>
-            <th>Market Cap</th>
+          <tr className="bg-[#FFD700] h-16">
+            <th className="text-black">Coin</th>
+            <th className="text-black">Price</th>
+            <th className="text-black">24h Change</th>
+            <th className="text-black">Market Cap</th>
           </tr>
         </thead>
         {coinsList.map((items, index) => {
           return (
             <tbody>
-              <tr>
-                <th className="text-center">
+              <tr className="hover:bg-black border-b">
+                <th className="flex items-center justify-center p-2">
                   <Image width={100} height={100} src={items.image}></Image>
                 </th>
-                <td className="text-center">{items.name}</td>
-                <td className="text-center">asd</td>
-                <td className="text-center">asd</td>
+                <td className="text-center p-2">{items.name}</td>
+                <td className="text-center p-2">
+                  {items.market_cap_change_percentage_24h}
+                </td>
+                <td className="text-center p-2">{items.market_cap}</td>
               </tr>
             </tbody>
           );

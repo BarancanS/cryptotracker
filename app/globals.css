@@ -10,3 +10,20 @@ body {
   margin: 0;
   background-color: #14161a;
 }
+::-webkit-scrollbar {
+  width: 10px;
+  height: 1rem;
+}
+::-webkit-scrollbar-corner {
+  background-color: #111;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 1rem;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+a {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
