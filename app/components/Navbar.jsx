@@ -2,15 +2,19 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { CryptoState } from "../CryptoContext";
+import Link from "next/link";
 
 const Navbar = () => {
   const { currency, setCurrency, symbol } = CryptoState();
 
   return (
     <section className="w-10/12 h-16 flex flex-row items-center justify-between mx-auto ">
-      <div className="text-[#FFD700] font-extrabold text-2xl  max-md:text-base">
+      <Link
+        href="/"
+        className="text-[#FFD700] font-extrabold text-2xl  max-md:text-base"
+      >
         Crypto Tracker
-      </div>
+      </Link>
       <ul className="flex flex-row gap-4">
         <li>
           <select

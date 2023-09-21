@@ -10,6 +10,8 @@ import jsonData from "../datas.json";
 const Table = () => {
   const { currency, setCurrency, symbol } = CryptoState();
   const [coinsList, setCoinsList] = useState(jsonData);
+  const [loadMore, setLoadMore] = useState(10);
+
   useEffect(() => {
     // getTrendsApi();
   }, []);
@@ -41,7 +43,7 @@ const Table = () => {
             <th className="text-black">Market Cap</th>
           </tr>
         </thead>
-        {coinsList.map((items, index) => {
+        {coinsList.slice(0, loadMore).map((items, index) => {
           return (
             <tbody>
               <tr className="hover:bg-black border-b">
@@ -50,14 +52,36 @@ const Table = () => {
                 </th>
                 <td className="text-center p-2">{items.name}</td>
                 <td className="text-center p-2">
-                  {items.market_cap_change_percentage_24h}
+                  {items.market_cap_change_percentage_24h
+                    ?.toString()
+                    .substring(0, 5)}
+                  %
                 </td>
-                <td className="text-center p-2">{items.market_cap}</td>
+                <td className="text-center p-2">
+                  $ {items.market_cap?.toString().substring(0, 3)},
+                  {items.market_cap?.toString().substring(3, 6)}M
+                </td>
               </tr>
             </tbody>
           );
         })}
       </table>
+      <div className="flex flex-row w-10/12 items-center justify-center mt-5 gap-3 mb-5">
+        <button
+          onClick={() => setLoadMore(loadMore + 10)}
+          className="w-24 max-sm:w-14 bg-[#FFD700] h-10 rounded-md text-black"
+        >
+          Show More
+        </button>
+        {loadMore > 10 && (
+          <button
+            onClick={() => setLoadMore(loadMore - 10)}
+            className="w-24 max-sm:w-14 bg-[#FFD700] h-10 rounded-md text-black"
+          >
+            Show Less
+          </button>
+        )}
+      </div>
     </div>
   );
 };
