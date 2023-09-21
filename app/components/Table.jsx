@@ -44,6 +44,13 @@ const Table = () => {
           </tr>
         </thead>
         {coinsList.slice(0, loadMore).map((items, index) => {
+          // Convert market_cap_change_percentage_24h to a string and check for "-"
+          const asd = (items.market_cap_change_percentage_24h || "")
+            .toString()
+            .includes("-")
+            ? "text-red-500"
+            : "text-green-500";
+
           return (
             <tbody>
               <tr className="hover:bg-black border-b">
@@ -51,11 +58,8 @@ const Table = () => {
                   <Image width={100} height={100} src={items.image}></Image>
                 </th>
                 <td className="text-center p-2">{items.name}</td>
-                <td className="text-center p-2">
-                  {items.market_cap_change_percentage_24h
-                    ?.toString()
-                    .substring(0, 5)}
-                  %
+                <td className={`text-center p-2 ${asd}`}>
+                  {items.market_cap_change_percentage_24h}%
                 </td>
                 <td className="text-center p-2">
                   $ {items.market_cap?.toString().substring(0, 3)},
