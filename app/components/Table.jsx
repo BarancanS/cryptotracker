@@ -69,14 +69,14 @@ const Table = () => {
       <div className="flex flex-row w-10/12 items-center justify-center mt-5 gap-3 mb-5">
         <button
           onClick={() => setLoadMore(loadMore + 10)}
-          className="w-24 max-sm:w-14 bg-[#FFD700] h-10 rounded-md text-black"
+          className="w-24  bg-[#FFD700] h-10 rounded-md text-black"
         >
           Show More
         </button>
         {loadMore > 10 && (
           <button
             onClick={() => setLoadMore(loadMore - 10)}
-            className="w-24 max-sm:w-14 bg-[#FFD700] h-10 rounded-md text-black"
+            className="w-24 bg-[#FFD700] h-10 rounded-md text-black"
           >
             Show Less
           </button>
