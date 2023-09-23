@@ -32,7 +32,7 @@ const Carousel = () => {
   const items = trendCoins.map((items, index) => {
     return (
       <Link
-        href={`/coins/${items.id}`}
+        href={`/coins/${items.item.id}`}
         key={index}
         className="flex flex-col items-center justify-between"
       >

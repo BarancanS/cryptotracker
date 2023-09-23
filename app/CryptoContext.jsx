@@ -3,10 +3,10 @@ import { createContext, useState, useEffect, useContext } from "react";
 import React from "react";
 const Crypto = createContext();
 const CryptoContext = ({ children }) => {
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("usd");
   const [symbol, setSymbol] = useState("$");
   useEffect(() => {
-    if (currency === "USD") {
+    if (currency === "usd") {
       setSymbol("$");
     } else {
       setSymbol("₺");
