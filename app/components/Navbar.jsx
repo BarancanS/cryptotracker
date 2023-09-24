@@ -53,9 +53,14 @@ const Navbar = () => {
               </button>
             </li>
             <li>
-              <button className="bg-[#FFD700] text-black w-24 max-sm:w-14 h-10 rounded-md">
-                <Link href="/profile">Profile</Link>
-              </button>
+              <Link
+                href="/profile"
+                className="bg-[#FFD700] text-black w-24 max-sm:w-14 h-10 rounded-md"
+              >
+                <button className="bg-[#FFD700] text-black w-24 max-sm:w-14 h-10 rounded-md">
+                  Profile
+                </button>
+              </Link>
             </li>
           </ul>
         ) : (
