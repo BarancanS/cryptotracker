@@ -163,6 +163,11 @@ const Page = ({ params }) => {
     }
   };
 
+  function removeATagsFromText(text) {
+    // Use a regular expression to find and replace all <a> tags with an empty string
+    return text.replace(/<a\b[^>]*>(.*?)<\/a>/gi, "");
+  }
+  console.log(singleCoinDetail);
   return (
     <div>
       {showSkeleton ? ( // Show skeleton for a few seconds when the component mounts
@@ -178,11 +183,17 @@ const Page = ({ params }) => {
             {user ? (
               <div>
                 <Navbar />
-                <div className="flex flex-row max-md:flex-col w-11/12 mx-auto">
-                  <div className="w-5/12 max-md:w-full p-5 h-[calc(100vh-10vh)] flex flex-col items-center max-md:border-0 border-r-2">
+                <div className="flex flex-row max-xl:flex-col w-11/12 mx-auto">
+                  <div className="w-4/12 max-xl:w-full h-[calc(100vh-14vh)] flex flex-col items-center max-xl:border-0 border-r-2">
                     {singleCoinDetail.map((items, index) => {
+                      const sanitizedText = removeATagsFromText(
+                        items.description.en.substring(0, 250)
+                      );
                       return (
-                        <div className="w-full" key={index}>
+                        <div
+                          className="w-full text-center flex flex-col items-center justify-center"
+                          key={index}
+                        >
                           <Image
                             src={items.image.large}
                             alt={items.name}
@@ -191,50 +202,69 @@ const Page = ({ params }) => {
                             height={200}
                             priority
                           />
-                          <h1 className="text-6xl max-md:text-xl text-center font-extrabold">
+                          <h1 className="text-4xl md:text-6xl text-center font-extrabold">
                             {items.name}
                           </h1>
-                          <p className="break-all text-center text-lg max-md:text-base text-gray-500">
-                            {items.categories}
+                          <p className="break-all w-11/12 text-center text-base md:text-lg text-gray-500">
+                            {items.categories.slice(0, 5)}
                           </p>
-                          <div className="max-md:text-sm text-base">
-                            <p className="break-all">
-                              {items.description.en.substring(0, 120)}...
-                            </p>
-                            <p>
-                              <label htmlFor="">
-                                Rank: {items.market_cap_rank}
-                              </label>
-                            </p>
-                            <p>
-                              <label htmlFor="">
-                                Current Price: {symbol}
+                          <div className="md:text-lg w-11/12 xl:text-left">
+                            <text className="break-all">
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: sanitizedText,
+                                }}
+                              />
+                            </text>
+                            <div className="text-lg md:text-2xl">
+                              <p className="text-lg md:text-2xl">
+                                <label htmlFor="" className="font-extrabold">
+                                  Rank:
+                                </label>{" "}
+                                <label htmlFor="" className="font-light">
+                                  1
+                                </label>
+                              </p>
+                              <p>
+                                <label
+                                  htmlFor=""
+                                  className="text-lg md:text-2xl font-extrabold"
+                                >
+                                  Current Price:
+                                </label>{" "}
                                 {currency === "usd" ? (
-                                  <label htmlFor="">
+                                  <label htmlFor="" className="font-light">
+                                    {symbol}
                                     {items.market_data.current_price.usd}
                                   </label>
                                 ) : (
                                   <label htmlFor="">
+                                    {symbol}
                                     {items.market_data.current_price.try}
                                   </label>
                                 )}
-                              </label>
-                            </p>
-                            <p>
-                              <label htmlFor="">
-                                Market Cap: {symbol}
+                              </p>
+                              <p>
+                                <label
+                                  htmlFor=""
+                                  className="text-lg md:text-2xl font-extrabold"
+                                >
+                                  Market Cap:
+                                </label>{" "}
                                 {currency === "usd" && (
-                                  <label htmlFor="">
+                                  <label htmlFor="" className="font-light">
+                                    {symbol}
                                     {items.market_data.market_cap.usd}
                                   </label>
                                 )}
                                 {currency === "try" && (
                                   <label htmlFor="">
+                                    {symbol}
                                     {items.market_data.market_cap.try}
                                   </label>
                                 )}
-                              </label>
-                            </p>
+                              </p>
+                            </div>
                             {showButton && (
                               <button
                                 onClick={() => handleAddRemove(items.id)}
@@ -252,7 +282,7 @@ const Page = ({ params }) => {
                       );
                     })}
                   </div>
-                  <div className="w-7/12 max-md:w-7/12 flex flex-col items-center h-screen">
+                  <div className="w-8/12 max-md:w-7/12 flex flex-col items-center h-screen">
                     {/* Content for the right side of the page */}
                   </div>
                 </div>
