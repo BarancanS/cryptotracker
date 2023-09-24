@@ -29,47 +29,11 @@ export default function Home() {
         </div>
       ) : (
         <div>
-          {user ? (
-            <main className="w-full min-h-screen">
-              <Navbar />
-              <Banner />
-              <Table />
-            </main>
-          ) : (
-            <div>
-              {status ? (
-                <div
-                  className="w-full flex flex-col items-center justify-center h-screen bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url("${`/pexels-james-wheeler-1519088.jpg`}")`,
-                  }}
-                >
-                  <SignIn />
-                  <button
-                    onClick={handleStatusChange}
-                    className="bg-blue-500 hover:bg-blue-600 text-white mt-20 py-2 px-4 rounded-md font-bold flex items-center justify-center"
-                  >
-                    Register Page
-                  </button>
-                </div>
-              ) : (
-                <div
-                  className="w-full flex flex-col items-center justify-center h-screen bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url("${`/pexels-piccinng-3075993.jpg`}")`,
-                  }}
-                >
-                  <SignUp />
-                  <button
-                    onClick={handleStatusChange}
-                    className="bg-blue-500 hover:bg-blue-600 text-white mt-20 py-2 px-4 rounded-md font-bold flex items-center justify-center"
-                  >
-                    Login Page
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
+          <main className="w-full min-h-screen">
+            <Navbar />
+            <Banner />
+            <Table />
+          </main>
         </div>
       )}
     </div>

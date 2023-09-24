@@ -50,103 +50,81 @@ function SignIn() {
     }
   };
 
-  return user ? (
-    <div className="flex flex-row item gap-2 items-center justify-center">
-      <button
-        className="w-24 max-sm:w-14 h-10 rounded-md bg-[#FFD700] text-black"
-        onClick={logout}
-      >
-        Logout
-      </button>
-      <Link
-        href="/profile"
-        className="bg-white text-black w-24 max-sm:w-14 h-10 rounded-md flex flex-col items-center justify-center cursor-pointer"
-      >
-        Profile
-      </Link>
-      {user.photoURL && (
-        <Image
-          src={user.photoURL || ""}
-          width={50}
-          height={50}
-          alt="user-image"
-          className="rounded-full w-[4rem] h-[4rem]"
-        />
-      )}
-    </div>
-  ) : (
-    <div className="bg-white p-8 rounded-lg shadow-md max-[295px]:w-60 max-[380px]:w-72 w-96">
-      <h1 className="text-2xl font-semibold text-center mb-6">Login</h1>
-      <form>
-        <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-gray-700 font-semibold mb-2"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
-            placeholder="Your Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="password"
-            className="block text-gray-700 font-semibold mb-2"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="mb-6">
-          <label className="inline-flex items-center">
+  return (
+    <div className="flex justify-center items-center rounded-xl">
+      <div className="p-6 bg-white rounded-lg shadow-md w-96">
+        <h2 className="text-2xl font-semibold mb-4 text-center text-black">
+          Sign In
+        </h2>
+        <form className="space-y-4">
+          <div>
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
-              type="checkbox"
-              id="rememberMe"
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              className="mr-2"
+              type="email"
+              id="email"
+              name="email"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
+              placeholder="Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <span className="ml-2 text-gray-700">Remember me</span>
-          </label>
-        </div>
-        <button
-          onClick={handleLogin}
-          type="button"
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-        >
-          Login
-        </button>
-        <button
-          type="button"
-          onClick={signInWithGoogle}
-          className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md font-bold flex items-center justify-center mt-2"
-        >
-          <FcGoogle className="text-xl mr-2" />
-          Login with Google
-        </button>
-      </form>
-      <div className="text-center mt-4">
-        <button
-          onClick={() => sendPasswordReset(email)}
-          className="text-blue-500 hover:underline"
-        >
-          Forgot Password?
-        </button>
+          </div>
+          <div>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-400"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                className="mr-2"
+                checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}
+              />
+              <label htmlFor="rememberMe" className="text-gray-700">
+                Remember Me
+              </label>
+            </div>
+            <button
+              type="button"
+              className="text-blue-500 hover:underline focus:outline-none"
+              onClick={() => sendPasswordReset(email)}
+            >
+              Reset Password
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+              onClick={handleLogin}
+            >
+              Sign In
+            </button>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg focus:outline-none focus:ring focus:ring-red-300"
+              onClick={signInWithGoogle}
+            >
+              Sign In with Google
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

@@ -1,13 +1,11 @@
 "use client";
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { CryptoState } from "../../../CryptoContext";
 import { HistoricalChart } from "../../../../app/config/api";
 import { SingleCoin } from "../../../../app/config/api";
 import Navbar from "@/app/components/Navbar";
 import jsonData from "../../../datas.json";
 import Link from "next/link";
-import Image from "next/image";
 import { auth } from "../../../../shared/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SignIn from "@/app/components/SignIn";
@@ -22,47 +20,50 @@ import {
   where,
 } from "firebase/firestore";
 import { db } from "../../../../shared/firebase";
-const page = ({ params }) => {
+import Skeleton from "react-loading-skeleton"; // Import the skeleton loading component
+import Image from "next/image";
+
+const Page = ({ params }) => {
   const { currency, setCurrency, symbol } = CryptoState();
   const [singleCoinDetail, setSingleCoinDetail] = useState([]);
   const [coinsHistoricalChart, setCoinsHistoricalChart] = useState([]);
-  const [loadMore, setLoadMore] = useState(10);
   const [user, loading] = useAuthState(auth);
   const [status, setStatus] = useState(true);
   const [documentId, setDocumentId] = useState("");
   const [showButton, setShowButton] = useState(false);
   const [displayAddRemove, setDisplayAddRemove] = useState([]);
-  if (loading) {
-    <div>asd</div>;
-  }
+  const [showSkeleton, setShowSkeleton] = useState(true); // State to control when to show the skeleton
+
   const handleStatusChange = () => {
     setStatus(!status);
   };
+
   useEffect(() => {
     getTrendsApi();
     getSingleCoin();
   }, []);
+
   const coinsParam = params.coinsId;
+
   const getTrendsApi = async () => {
-    return fetch(HistoricalChart(coinsParam, currency))
-      .then((response) => response.json())
-      .then((data) => {
-        setCoinsHistoricalChart(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const response = await fetch(HistoricalChart(coinsParam, currency));
+      const data = await response.json();
+      setCoinsHistoricalChart(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
   const getSingleCoin = async () => {
-    return fetch(SingleCoin(coinsParam))
-      .then((response) => response.json())
-      .then((data) => {
-        setSingleCoinDetail([data]);
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const response = await fetch(SingleCoin(coinsParam));
+      const data = await response.json();
+      setSingleCoinDetail([data]);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -85,6 +86,7 @@ const page = ({ params }) => {
       fetchDocumentIdData();
     }
   }, [documentId, user]);
+
   useEffect(() => {
     if (!user || !documentId) {
       return;
@@ -118,9 +120,15 @@ const page = ({ params }) => {
       setShowButton(true);
     }, 700);
 
+    // Show the skeleton for a few seconds after component mounts
+    const skeletonTimer = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 3000); // Adjust the time as needed
+
     return () => {
-      // Clear the timer if the component unmounts before 0.7 seconds
+      // Clear the timers if the component unmounts
       clearTimeout(timer);
+      clearTimeout(skeletonTimer);
     };
   }, []);
 
@@ -156,10 +164,26 @@ const page = ({ params }) => {
       console.error(err);
     }
   };
+
   return (
     <div>
-      {loading ? (
-        <div>Loading</div>
+      {showSkeleton ? ( // Show skeleton for a few seconds when the component mounts
+        <div className="w-full h-screen flex flex-col items-center justify-center">
+          <Skeleton width={200} height={200} /> {/* Skeleton for image */}
+          <Skeleton width={300} height={60} /> {/* Skeleton for title */}
+          <Skeleton width={300} height={20} /> {/* Skeleton for category */}
+          <Skeleton width={200} height={20} /> {/* Skeleton for description */}
+          <Skeleton width={100} height={20} /> {/* Skeleton for rank */}
+          <Skeleton width={150} height={20} />{" "}
+          {/* Skeleton for current price */}
+          <Skeleton width={150} height={20} /> {/* Skeleton for market cap */}
+          {showButton && (
+            <div>
+              <h1>Loading</h1>
+              <div className="pulseLoader"></div>
+            </div>
+          )}
+        </div>
       ) : (
         <section>
           <div>
@@ -171,12 +195,12 @@ const page = ({ params }) => {
                     {singleCoinDetail.map((items, index) => {
                       return (
                         <div className="w-full" key={index}>
-                          <Image
-                            width={200}
-                            height={200}
+                          <img
                             src={items.image.large}
                             alt={items.name}
-                            className=" mx-auto "
+                            className="mx-auto"
+                            width={200}
+                            height={200}
                           />
                           <h1 className="text-6xl max-md:text-xl text-center font-extrabold">
                             {items.name}
@@ -190,12 +214,12 @@ const page = ({ params }) => {
                             </p>
                             <p>
                               <label htmlFor="">
-                                Rank:{items.market_cap_rank}
+                                Rank: {items.market_cap_rank}
                               </label>
                             </p>
                             <p>
                               <label htmlFor="">
-                                Current Price:{symbol}
+                                Current Price: {symbol}
                                 {currency === "usd" ? (
                                   <label htmlFor="">
                                     {items.market_data.current_price.usd}
@@ -209,7 +233,7 @@ const page = ({ params }) => {
                             </p>
                             <p>
                               <label htmlFor="">
-                                Market Cap:{symbol}
+                                Market Cap: {symbol}
                                 {currency === "usd" && (
                                   <label htmlFor="">
                                     {items.market_data.market_cap.usd}
@@ -240,7 +264,7 @@ const page = ({ params }) => {
                     })}
                   </div>
                   <div className="w-7/12 max-md:w-7/12 flex flex-col items-center h-screen">
-                    asd
+                    {/* Content for the right side of the page */}
                   </div>
                 </div>
               </div>
@@ -250,7 +274,7 @@ const page = ({ params }) => {
                   <div
                     className="w-full flex flex-col items-center justify-center h-screen bg-cover bg-center"
                     style={{
-                      backgroundImage: `url("${`/pexels-james-wheeler-1519088.jpg`}")`,
+                      backgroundImage: `url("/pexels-james-wheeler-1519088.jpg")`,
                     }}
                   >
                     <SignIn />
@@ -265,7 +289,7 @@ const page = ({ params }) => {
                   <div
                     className="w-full flex flex-col items-center justify-center h-screen bg-cover bg-center"
                     style={{
-                      backgroundImage: `url("${`/pexels-piccinng-3075993.jpg`}")`,
+                      backgroundImage: `url("/pexels-piccinng-3075993.jpg")`,
                     }}
                   >
                     <SignUp />
@@ -286,4 +310,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;

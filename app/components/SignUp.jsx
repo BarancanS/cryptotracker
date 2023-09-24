@@ -7,6 +7,7 @@ import {
   registerWithEmailAndPassword,
   signInWithGoogle,
 } from "../../shared/firebase";
+
 function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,12 +18,14 @@ function SignUp() {
     if (!name) alert("Please enter name");
     registerWithEmailAndPassword(name, email, password);
   };
-  useEffect(() => {}, [user, loading]);
+
   return (
-    <div className="bg-white p-8 rounded-lg shadow-md w-96">
-      <h1 className="text-2xl font-semibold text-center mb-6">Register</h1>
-      <form>
-        <div className="mb-4">
+    <div className="bg-white p-4 sm:p-8 rounded-lg shadow-md w-full max-w-md">
+      <h1 className="text-2xl font-semibold text-center mb-6 text-black">
+        Register
+      </h1>
+      <form className="space-y-4">
+        <div>
           <label
             htmlFor="name"
             className="block text-gray-700 font-semibold mb-2"
@@ -39,7 +42,7 @@ function SignUp() {
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div>
           <label
             htmlFor="email"
             className="block text-gray-700 font-semibold mb-2"
@@ -56,7 +59,7 @@ function SignUp() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div>
           <label
             htmlFor="password"
             className="block text-gray-700 font-semibold mb-2"
@@ -73,12 +76,14 @@ function SignUp() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <div className="mb-6">
-          <label className="inline-flex items-center">
-            <input type="checkbox" className="form-checkbox text-blue-400" />
-            <span className="ml-2 text-gray-700">
-              I agree to the terms and conditions
-            </span>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="agreeToTerms"
+            className="mr-2 form-checkbox text-blue-400"
+          />
+          <label htmlFor="agreeToTerms" className="text-gray-700">
+            I agree to the terms and conditions
           </label>
         </div>
         <button
@@ -110,4 +115,5 @@ function SignUp() {
     </div>
   );
 }
+
 export default SignUp;
