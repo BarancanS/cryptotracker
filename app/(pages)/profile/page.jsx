@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
   const [list, setList] = useState([]);
-  const [loadMore, setLoadMore] = useState(12);
+  const [loadMore, setLoadMore] = useState(10);
   const [status, setStatus] = useState(true);
   const [showSkeleton, setShowSkeleton] = useState(true);
 
@@ -102,7 +102,7 @@ const ProfilePage = () => {
 
                           return (
                             <tr
-                              key={items.id}
+                              key={index}
                               className="hover:bg-gray-800 border-b border-gray-600"
                             >
                               <td className="flex items-center p-2">
@@ -172,7 +172,7 @@ const ProfilePage = () => {
                       </tbody>
                     </table>
                     <div className="flex flex-row w-10/12 items-center justify-center mt-5 gap-3 mb-5">
-                      {list.length > loadMore > 10 && (
+                      {loadMore > 12 && (
                         <button
                           onClick={() => setLoadMore(loadMore - 10)}
                           className="w-24 bg-[#FFD700] h-10 rounded-md text-black"
@@ -180,7 +180,7 @@ const ProfilePage = () => {
                           Show Less
                         </button>
                       )}{" "}
-                      {list.length > loadMore > 10 && (
+                      {loadMore < list.length && (
                         <button
                           onClick={() => setLoadMore(loadMore + 10)}
                           className="w-24 bg-[#FFD700] h-10 rounded-md text-black"
