@@ -75,7 +75,6 @@ const ProfilePage = () => {
             {user ? (
               <div>
                 <Navbar />
-
                 <div>
                   <div className="w-full flex flex-col items-center justify-center mt-5">
                     <h1 className="text-4xl mb-4">

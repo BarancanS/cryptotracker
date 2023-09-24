@@ -9,23 +9,23 @@ import jsonData from "../datas.json";
 
 const Table = () => {
   const { currency, setCurrency, symbol } = CryptoState();
-  const [coinsList, setCoinsList] = useState(jsonData);
-  // const [coinsList, setCoinsList] = useState([]);
+  // const [coinsList, setCoinsList] = useState(jsonData);
+  const [coinsList, setCoinsList] = useState([]);
   const [loadMore, setLoadMore] = useState(10);
 
-  // useEffect(() => {
-  //   getTrendsApi();
-  // }, []);
-  // const getTrendsApi = async () => {
-  //   return fetch(CoinList(currency))
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setCoinsList(data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  useEffect(() => {
+    getTrendsApi();
+  }, []);
+  const getTrendsApi = async () => {
+    return fetch(CoinList(currency))
+      .then((response) => response.json())
+      .then((data) => {
+        setCoinsList(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="w-full flex flex-col items-center justify-center mt-5">
