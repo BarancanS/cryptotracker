@@ -41,9 +41,9 @@ const signInWithGoogle = async () => {
       await addDoc(collection(db, "users"), {
         List: [],
         uid: user.uid,
-        name: user.displayName,
+        name: user.displayName || "", // Ensure name is not empty
         authProvider: "google",
-        email: user.email,
+        email: user.email || "", // Ensure email is not empty
         isAdmin: false,
       });
     }

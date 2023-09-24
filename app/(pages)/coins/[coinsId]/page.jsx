@@ -1,11 +1,10 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { CryptoState } from "../../../CryptoContext";
 import { HistoricalChart } from "../../../../app/config/api";
 import { SingleCoin } from "../../../../app/config/api";
 import Navbar from "@/app/components/Navbar";
 import jsonData from "../../../datas.json";
-import Link from "next/link";
 import { auth } from "../../../../shared/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import SignIn from "@/app/components/SignIn";
@@ -28,10 +27,10 @@ const Page = ({ params }) => {
   const [singleCoinDetail, setSingleCoinDetail] = useState([]);
   const [coinsHistoricalChart, setCoinsHistoricalChart] = useState([]);
   const [user, loading] = useAuthState(auth);
-  const [status, setStatus] = useState(true);
   const [documentId, setDocumentId] = useState("");
-  const [showButton, setShowButton] = useState(false);
   const [displayAddRemove, setDisplayAddRemove] = useState([]);
+  const [status, setStatus] = useState(true);
+  const [showButton, setShowButton] = useState(false);
   const [showSkeleton, setShowSkeleton] = useState(true); // State to control when to show the skeleton
 
   const handleStatusChange = () => {
@@ -100,7 +99,7 @@ const Page = ({ params }) => {
         const userDocData = userDoc.data();
         if (userDocData && userDocData.List) {
           const userItemListIds = userDocData.List.map((item) => item.id);
-          const updatedDisplayAddRemove = singleCoinDetail.map((item) => ({
+          const updatedDisplayAddRemove = jsonData.map((item) => ({
             id: item.id,
             display: userItemListIds.includes(item.id),
           }));
@@ -112,7 +111,7 @@ const Page = ({ params }) => {
     };
 
     fetchListData();
-  }, [user, documentId, singleCoinDetail]);
+  }, [user, documentId, jsonData]);
 
   useEffect(() => {
     // Delay the button display for 0.7 seconds after component mounts
@@ -135,7 +134,6 @@ const Page = ({ params }) => {
   const handleAddRemove = async (itemId) => {
     const userId = documentId;
     const userDocRef = doc(db, "users", userId);
-
     try {
       const userDoc = await getDoc(userDocRef);
       const List = userDoc.data().List || [];
@@ -147,7 +145,7 @@ const Page = ({ params }) => {
         await updateDoc(userDocRef, { List: updatedUserData });
         console.log("Document successfully updated! (Deleted)");
       } else {
-        const itemToAdd = singleCoinDetail.find((item) => item.id === itemId);
+        const itemToAdd = jsonData.find((item) => item.id === itemId);
         if (itemToAdd) {
           const updatedUserData = [...List, itemToAdd];
           await updateDoc(userDocRef, { List: updatedUserData });
@@ -169,20 +167,10 @@ const Page = ({ params }) => {
     <div>
       {showSkeleton ? ( // Show skeleton for a few seconds when the component mounts
         <div className="w-full h-screen flex flex-col items-center justify-center">
-          <Skeleton width={200} height={200} /> {/* Skeleton for image */}
-          <Skeleton width={300} height={60} /> {/* Skeleton for title */}
-          <Skeleton width={300} height={20} /> {/* Skeleton for category */}
-          <Skeleton width={200} height={20} /> {/* Skeleton for description */}
-          <Skeleton width={100} height={20} /> {/* Skeleton for rank */}
-          <Skeleton width={150} height={20} />{" "}
-          {/* Skeleton for current price */}
-          <Skeleton width={150} height={20} /> {/* Skeleton for market cap */}
-          {showButton && (
-            <div>
-              <h1>Loading</h1>
-              <div className="pulseLoader"></div>
-            </div>
-          )}
+          <div>
+            <h1>Loading</h1>
+            <div className="pulseLoader"></div>
+          </div>
         </div>
       ) : (
         <section>
@@ -195,12 +183,13 @@ const Page = ({ params }) => {
                     {singleCoinDetail.map((items, index) => {
                       return (
                         <div className="w-full" key={index}>
-                          <img
+                          <Image
                             src={items.image.large}
                             alt={items.name}
                             className="mx-auto"
                             width={200}
                             height={200}
+                            priority
                           />
                           <h1 className="text-6xl max-md:text-xl text-center font-extrabold">
                             {items.name}
