@@ -3,6 +3,8 @@ export const CoinList = (currency) =>
 
 export const SingleCoin = (coinsParam) =>
   `https://api.coingecko.com/api/v3/coins/${coinsParam}`;
+export const profileSingleCoin = (itemsId) =>
+  `https://api.coingecko.com/api/v3/coins/${itemsId}`;
 
 export const HistoricalChart = (coinsParam, days = 365) =>
   `https://api.coingecko.com/api/v3/coins/${coinsParam}/market_chart?vs_currency=USD&days=${days}`;
