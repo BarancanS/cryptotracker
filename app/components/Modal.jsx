@@ -19,7 +19,7 @@ const AuthModal = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-80">
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-80 transition-all ease-in-out duration-500">
       <div className="p-6 rounded-lg shadow-md relative w-full max-w-md">
         <h1 className="text-2xl font-semibold text-center mb-6">
           {showSignIn ? "Sign In" : "Sign Up"}

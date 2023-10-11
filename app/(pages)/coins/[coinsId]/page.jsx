@@ -113,24 +113,6 @@ const Page = ({ params }) => {
     fetchListData();
   }, [user, documentId, jsonData]);
 
-  useEffect(() => {
-    // Delay the button display for 0.7 seconds after component mounts
-    const timer = setTimeout(() => {
-      setShowButton(true);
-    }, 700);
-
-    // Show the skeleton for a few seconds after component mounts
-    const skeletonTimer = setTimeout(() => {
-      setShowSkeleton(false);
-    }, 3000); // Adjust the time as needed
-
-    return () => {
-      // Clear the timers if the component unmounts
-      clearTimeout(timer);
-      clearTimeout(skeletonTimer);
-    };
-  }, []);
-
   const handleAddRemove = async (itemId) => {
     const userId = documentId;
     const userDocRef = doc(db, "users", userId);
@@ -163,6 +145,23 @@ const Page = ({ params }) => {
     }
   };
 
+  useEffect(() => {
+    // Delay the button display for 0.7 seconds after component mounts
+    const timer = setTimeout(() => {
+      setShowButton(true);
+    }, 700);
+
+    // Show the skeleton for a few seconds after component mounts
+    const skeletonTimer = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 3000); // Adjust the time as needed
+
+    return () => {
+      // Clear the timers if the component unmounts
+      clearTimeout(timer);
+      clearTimeout(skeletonTimer);
+    };
+  }, []);
   function removeATagsFromText(text) {
     // Use a regular expression to find and replace all <a> tags with an empty string
     return text.replace(/<a\b[^>]*>(.*?)<\/a>/gi, "");
